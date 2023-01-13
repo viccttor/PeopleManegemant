@@ -36,15 +36,15 @@ public class AddressServiceTest {
     @Test
     public void newEndereco(){
         AddressDTO addressDTO = new AddressDTO();
-        addressDTO.setLogradouro("Teste");
-        addressDTO.setCep("Teste");
-        addressDTO.setCidade("Teste");
-        addressDTO.setNumero("11");
-        addressDTO.setPessoaID(1);
+        addressDTO.setStreet("Teste");
+        addressDTO.setCity("Teste");
+        addressDTO.setNumber("11");
+        addressDTO.setZipCode("11111-111");
+        addressDTO.setPersonID(1);
 
         address = addressService.newAddress(addressDTO);
 
-        Assert.assertEquals(addressDTO.getLogradouro(), address.getLogradouro());
+        Assert.assertEquals(addressDTO.getStreet(), address.getStreet());
     }
 
 

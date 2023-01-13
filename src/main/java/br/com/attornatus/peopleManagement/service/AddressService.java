@@ -1,5 +1,6 @@
 package br.com.attornatus.peopleManagement.service;
 
+import br.com.attornatus.peopleManagement.Util.ValidatorUtil;
 import br.com.attornatus.peopleManagement.exception.AddressNotFoundException;
 import br.com.attornatus.peopleManagement.model.Address;
 import br.com.attornatus.peopleManagement.model.dto.AddressDTO;
@@ -14,37 +15,40 @@ import java.util.stream.Collectors;
 public class AddressService {
     private Address address;
     @Autowired
+    private PersonService personService;
+    @Autowired
     private AddressRepository addressRepository;
 
     public Address newAddress(AddressDTO addressDTO) {
-        address = new Address();
-        address = creatObjectEndereco(addressDTO);
-        addressRepository.save(address);
-        
-        return address;
+        return addressRepository.save(creatObjectAddress(addressDTO));
     }
 
-    public Address creatObjectEndereco(AddressDTO addressDTO){
-        address = new Address();
-        address.setStreet(addressDTO.getStreet());
-        address.setNumber(addressDTO.getNumber());
-        address.setZipCode(addressDTO.getZipCode());
-        address.setCity(addressDTO.getCity());
-        address.setPersonID(addressDTO.getPersonID());
+    public Address creatObjectAddress(AddressDTO addressDTO){
+        if(!ValidatorUtil.validateAddressFields(addressDTO)) {
+            return null;
+        } else {
+            address = new Address();
+            address.setStreet(addressDTO.getStreet());
+            address.setNumber(addressDTO.getNumber());
+            address.setZipCode(addressDTO.getZipCode());
+            address.setCity(addressDTO.getCity());
+            address.setPersonID(addressDTO.getPersonID());
 
-        return address;
+            return address;
+        }
     }
 
-    public List<Address> findAddresses(long PersonID) {
+    public List<Address> findAddresses(long personID) {
+       if(personService.findPerson(personID) == null) {return null;}
         return addressRepository.findAll()
                 .stream()
-                .filter(e -> e.getPersonID() == PersonID)
+                .filter(e -> e.getPersonID() == personID)
                 .collect(Collectors.toList());
     }
 
     public Address findAddressByID(long AddressID) {
-        address = addressRepository.findById(AddressID).orElse(null);
         try {
+            address = addressRepository.findById(AddressID).orElse(null);
             if ( address == null) {throw new AddressNotFoundException("Endereço não encontrado");}
         }catch (AddressNotFoundException e) {
             e.printStackTrace();

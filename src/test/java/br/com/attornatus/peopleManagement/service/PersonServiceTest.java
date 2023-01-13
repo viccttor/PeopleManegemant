@@ -27,8 +27,8 @@ public class PersonServiceTest {
 
     @BeforeEach
     void setup() {
-        person.setNome("Victor");
-        person.setDataNascimento(LocalDate.now());
+        person.setName("Victor");
+        person.setBirthDate(LocalDate.now());
         person.setId(1);
 
         BDDMockito.when(personService.findPerson(ArgumentMatchers.anyLong())).thenReturn(person);

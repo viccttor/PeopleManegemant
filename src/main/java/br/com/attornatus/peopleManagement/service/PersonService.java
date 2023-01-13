@@ -27,17 +27,19 @@ public class PersonService {
         }catch (PersonNotFoundException e) {
             e.printStackTrace();
         }
-
         return person;
     }
+
     public Person newPerson(PersonDTO personDTO) {
+        person = personRepository.save(createObjectPerson(personDTO));
+        setMainAddress(person.getId(), person.getAddress().getId());
+        return person;
+    }
+    public Person createObjectPerson(PersonDTO personDTO) {
         person = new Person();
         person.setName(personDTO.getName());
         person.setBirthDate(personDTO.getBirthDate());
-        person.setAddress(addressService.creatObjectEndereco(personDTO.getAddressDTO()));
-
-        personRepository.save(person);
-        setMainAddress(person.getId(), person.getAddress().getId());
+        person.setAddress(addressService.creatObjectAddress(personDTO.getAddressDTO()));
 
         return person;
     }
@@ -46,7 +48,7 @@ public class PersonService {
         person = findPerson(personID);
         person.setName(personDTO.getName());
         person.setBirthDate(personDTO.getBirthDate());
-        person.setAddress(addressService.creatObjectEndereco(personDTO.getAddressDTO()));
+        person.setAddress(addressService.creatObjectAddress(personDTO.getAddressDTO()));
 
         personRepository.save(person);
 
