@@ -12,7 +12,6 @@ public class AddressBuilder {
         builder.addressDTO.setCity("city");
         builder.addressDTO.setZipCode("11111-111");
         builder.addressDTO.setNumber("221");
-        builder.addressDTO.setPersonID(0);
         return builder;
     }
 
