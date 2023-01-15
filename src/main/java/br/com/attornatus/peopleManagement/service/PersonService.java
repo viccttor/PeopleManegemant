@@ -24,7 +24,7 @@ public class PersonService {
     public Person findPerson(long personID){
         person = personRepository.findById(personID).orElse(null);
         try {
-            if ( person == null) {throw new PersonNotFoundException("Person não encontrada!");}
+            if ( person == null) {throw new PersonNotFoundException("Person not found");}
         }catch (PersonNotFoundException e) {
             e.printStackTrace();
         }

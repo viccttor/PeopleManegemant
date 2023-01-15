@@ -58,7 +58,7 @@ public class AddressService {
     public Address findAddressByID(long AddressID) {
         try {
             address = addressRepository.findById(AddressID).orElse(null);
-            if ( address == null) {throw new AddressNotFoundException("Endereço não encontrado");}
+            if ( address == null) {throw new AddressNotFoundException("Address not found");}
         }catch (AddressNotFoundException e) {
             e.printStackTrace();
         }
