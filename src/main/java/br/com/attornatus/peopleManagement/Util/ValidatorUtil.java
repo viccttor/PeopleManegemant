@@ -1,10 +1,8 @@
 package br.com.attornatus.peopleManagement.Util;
 
-import br.com.attornatus.peopleManagement.exception.InvalidCharactersException;
-import br.com.attornatus.peopleManagement.exception.InvalidNumberOfCharactersException;
-import br.com.attornatus.peopleManagement.exception.NullAddressException;
-import br.com.attornatus.peopleManagement.exception.NullAddressFieldException;
+import br.com.attornatus.peopleManagement.exception.*;
 import br.com.attornatus.peopleManagement.model.dto.AddressDTO;
+import br.com.attornatus.peopleManagement.model.dto.PersonDTO;
 
 public class ValidatorUtil {
 
@@ -13,6 +11,39 @@ public class ValidatorUtil {
                 && checksIfTheFieldHascharactersInvalid(addressDTO.getNumber())
                 && checksIfTheFieldHascharactersInvalid(addressDTO.getZipCode())
                 && numberOfCharactersAddress(addressDTO);
+    }
+    public static boolean validatePersonFields(PersonDTO personDTO) {
+        return checkForNullPersonFields(personDTO) && numberOfCharactersPerson(personDTO);
+    }
+
+    private static boolean checkForNullPersonFields(PersonDTO personDTO) {
+        if (personDTO == null ){
+            throw new NullPersonException("Objeto PersonDTO é nulo");
+        }
+        if (personDTO.getName() == null ){
+            throw new NullPersonFieldException("Campo Name é nulo");
+        }
+        if (personDTO.getBirthDate() == null ){
+            throw new NullPersonFieldException("Campo birthDate é nulo");
+        }
+
+        return true;
+    }
+
+    private static boolean numberOfCharactersPerson(PersonDTO personDTO) {
+
+        int numberOfCharacters = personDTO.getName().length();
+        if (numberOfCharacters > 100) {
+            throw new InvalidNumberOfCharactersException("Quantiade de caracteres do " +
+                    "campo name é maior que 100");
+        }
+
+        numberOfCharacters = personDTO.getBirthDate().toString().length();
+        if (numberOfCharacters > 10) {
+            throw new InvalidNumberOfCharactersException("Quantiade de caracteres do " +
+                    "campo name é maior que 100");
+        }
+        return true;
     }
 
     public static boolean checksIfTheFieldHascharactersInvalid(String fild) {
@@ -68,8 +99,6 @@ public class ValidatorUtil {
 
         return true;
     }
-
-
 
 
 }

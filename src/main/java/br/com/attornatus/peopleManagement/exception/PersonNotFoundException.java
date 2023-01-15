@@ -1,7 +1,7 @@
 package br.com.attornatus.peopleManagement.exception;
 
 public class PersonNotFoundException extends RuntimeException {
-    public PersonNotFoundException(String s) {
-        super(s);
+    public PersonNotFoundException(String message) {
+        super(message);
     }
 }

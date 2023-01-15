@@ -5,7 +5,7 @@ import br.com.attornatus.peopleManagement.model.dto.PersonDTO;
 import java.time.LocalDate;
 
 public class PersonBuilder {
-    private PersonDTO personDTO;
+    private PersonDTO personDTO = new PersonDTO();
 
     public PersonBuilder(){}
 
@@ -13,6 +13,7 @@ public class PersonBuilder {
         PersonBuilder builder = new PersonBuilder();
         builder.personDTO.setName("Victor Henrique");
         builder.personDTO.setBirthDate(LocalDate.now());
+        builder.personDTO.setAddressDTO(AddressBuilder.newAddress().now());
 
         return builder;
     }

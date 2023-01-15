@@ -1,10 +1,7 @@
 package br.com.attornatus.peopleManagement.util;
 
 import br.com.attornatus.peopleManagement.Util.ValidatorUtil;
-import br.com.attornatus.peopleManagement.exception.InvalidCharactersException;
-import br.com.attornatus.peopleManagement.exception.InvalidNumberOfCharactersException;
-import br.com.attornatus.peopleManagement.exception.NullAddressException;
-import br.com.attornatus.peopleManagement.exception.NullAddressFieldException;
+import br.com.attornatus.peopleManagement.exception.*;
 import br.com.attornatus.peopleManagement.model.dto.AddressDTO;
 import br.com.attornatus.peopleManagement.model.dto.PersonDTO;
 import org.hamcrest.CoreMatchers;
@@ -16,7 +13,10 @@ import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDate;
+
 import static br.com.attornatus.peopleManagement.builder.AddressBuilder.newAddress;
+import static br.com.attornatus.peopleManagement.builder.PersonBuilder.newPerson;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ValidatorUtilTest {
@@ -35,6 +35,7 @@ class ValidatorUtilTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         addressDTO = newAddress().now();
+        personDTO = newPerson().now();
 
     }
 
@@ -54,7 +55,7 @@ class ValidatorUtilTest {
 
     @Order(1)
     @Test
-    void AddressIsNotNullDontThrowNullAddressException() {
+    void addressValidDontThrowException() {
 
        ValidatorUtil.validateAddressFields(addressDTO);
        error.checkThat(addressDTO.getNumber(), CoreMatchers.is("221"));
@@ -169,7 +170,7 @@ class ValidatorUtilTest {
 
     @Order(10)
     @Test
-    void zipcodeFieldWithUppercaseLettersThrowInvalidCharactersException(){
+    void zipCodeFieldWithUppercaseLettersThrowInvalidCharactersException(){
         try {
             ValidatorUtil.checksIfTheFieldHascharactersInvalid("LETRAS");
         }catch (InvalidCharactersException e){
@@ -181,7 +182,7 @@ class ValidatorUtilTest {
 
     @Order(11)
     @Test
-    void zipcodeFieldWithLowercaseLettersThrowInvalidCharactersException(){
+    void zipCodeFieldWithLowercaseLettersThrowInvalidCharactersException(){
 
         try {
             ValidatorUtil.checksIfTheFieldHascharactersInvalid("letras");
@@ -194,7 +195,7 @@ class ValidatorUtilTest {
 
     @Order(12)
     @Test
-    void zipcodeFieldWithSpecialCharactersThrowInvalidCharactersException(){
+    void zipCodeFieldWithSpecialCharactersThrowInvalidCharactersException(){
 
         try {
             ValidatorUtil.checksIfTheFieldHascharactersInvalid("*=@/");
@@ -205,4 +206,59 @@ class ValidatorUtilTest {
 
     }
 
+    @Order(13)
+    @Test
+    void personValidDontThrowException() {
+        personDTO = newPerson().now();
+
+        ValidatorUtil.validatePersonFields(personDTO);
+
+        error.checkThat(personDTO.getName(), CoreMatchers.is("Victor Henrique"));
+        error.checkThat(personDTO.getBirthDate(), CoreMatchers.is(LocalDate.now()));
+
+    }
+
+    @Order(14)
+    @Test
+    void nullPersonThrowNullPersonException() {
+
+        personDTO = null;
+
+        try {
+            ValidatorUtil.validatePersonFields(personDTO);
+        } catch (NullPersonException e) {
+            e.printStackTrace();
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Objeto PersonDTO é nulo"));
+        }
+    }
+
+    @Order(15)
+    @Test
+    void nullNameFieldThrowNullPersonFieldException() {
+
+        personDTO = newPerson().setName(null).now();
+
+        try {
+            ValidatorUtil.validatePersonFields(personDTO);
+        } catch (NullPersonFieldException e) {
+            e.printStackTrace();
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Campo Name é nulo"));
+        }
+    }
+
+    @Order(16)
+    @Test
+    void nullBirthDateFieldThrowNullPersonFieldException() {
+
+        personDTO = newPerson().setBirthDate(null).now();
+
+        try {
+            ValidatorUtil.validatePersonFields(personDTO);
+        } catch (NullPersonFieldException e) {
+            e.printStackTrace();
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Campo birthDate é nulo"));
+        }
+    }
+
+    //Name and birthDate
 }
