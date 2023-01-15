@@ -1,6 +1,7 @@
 package br.com.attornatus.peopleManagement.util;
 
 import br.com.attornatus.peopleManagement.Util.ValidatorUtil;
+import br.com.attornatus.peopleManagement.exception.InvalidCharactersException;
 import br.com.attornatus.peopleManagement.exception.InvalidNumberOfCharactersException;
 import br.com.attornatus.peopleManagement.exception.NullAddressException;
 import br.com.attornatus.peopleManagement.exception.NullAddressFieldException;
@@ -55,13 +56,13 @@ class ValidatorUtilTest {
     @Test
     void AddressIsNotNullDontThrowNullAddressException() {
 
-       try {
-           ValidatorUtil.validateAddressFields(addressDTO);
+       ValidatorUtil.validateAddressFields(addressDTO);
+       error.checkThat(addressDTO.getNumber(), CoreMatchers.is("221"));
+       error.checkThat(addressDTO.getStreet(), CoreMatchers.is("street"));
+       error.checkThat(addressDTO.getCity(), CoreMatchers.is("city"));
+       error.checkThat(addressDTO.getZipCode(), CoreMatchers.is("11111111"));
+       error.checkThat(addressDTO.getPersonID(), CoreMatchers.is(0));
 
-       }catch (NullAddressException e){
-           e.printStackTrace();
-           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Endereço é nulo"));
-       }
     }
 
     @Order(2)
@@ -166,11 +167,42 @@ class ValidatorUtilTest {
         }
     }
 
+    @Order(10)
     @Test
-    void test(){
-        addressDTO = newAddress().setPersonID(null).now();
+    void zipcodeFieldWithUppercaseLettersThrowInvalidCharactersException(){
+        try {
+            ValidatorUtil.checksIfTheFieldHascharactersInvalid("LETRAS");
+        }catch (InvalidCharactersException e){
+            e.printStackTrace();
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Neste Campo é permitido apenas Números"));
+        }
+
     }
 
-    //Verificar se no campo cep e no numero se veio letras ou caracteres especiais
-    //Verificar se o campo personID é nulo e/ou se tem Letras
+    @Order(11)
+    @Test
+    void zipcodeFieldWithLowercaseLettersThrowInvalidCharactersException(){
+
+        try {
+            ValidatorUtil.checksIfTheFieldHascharactersInvalid("letras");
+        }catch (InvalidCharactersException e){
+            e.printStackTrace();
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Neste Campo é permitido apenas Números"));
+        }
+
+    }
+
+    @Order(12)
+    @Test
+    void zipcodeFieldWithSpecialCharactersThrowInvalidCharactersException(){
+
+        try {
+            ValidatorUtil.checksIfTheFieldHascharactersInvalid("*=@/");
+        }catch (InvalidCharactersException e){
+            e.printStackTrace();
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Neste Campo é permitido apenas Números"));
+        }
+
+    }
+
 }

@@ -1,5 +1,6 @@
 package br.com.attornatus.peopleManagement.Util;
 
+import br.com.attornatus.peopleManagement.exception.InvalidCharactersException;
 import br.com.attornatus.peopleManagement.exception.InvalidNumberOfCharactersException;
 import br.com.attornatus.peopleManagement.exception.NullAddressException;
 import br.com.attornatus.peopleManagement.exception.NullAddressFieldException;
@@ -8,16 +9,16 @@ import br.com.attornatus.peopleManagement.model.dto.AddressDTO;
 public class ValidatorUtil {
 
     public static boolean validateAddressFields(AddressDTO addressDTO) {
+        return checkForNullAddressFields(addressDTO)
+                && checksIfTheFieldHascharactersInvalid(addressDTO.getNumber())
+                && checksIfTheFieldHascharactersInvalid(addressDTO.getZipCode())
+                && numberOfCharactersAddress(addressDTO);
+    }
 
-        try {
-            checkForNullAddressFields(addressDTO);
-            validateNumberOfCharactersAddress(addressDTO);
-            return true;
-        }catch (InvalidNumberOfCharactersException e ) {
-            e.printStackTrace();
-        }
-
-        return false;
+    public static boolean checksIfTheFieldHascharactersInvalid(String fild) {
+        if (!fild.matches("^[0-9]+$")) throw new InvalidCharactersException("Neste Campo é " +
+                "permitido apenas Números");
+        return true;
     }
 
     private static boolean checkForNullAddressFields(AddressDTO addressDTO) {
@@ -40,7 +41,7 @@ public class ValidatorUtil {
         return true;
     }
 
-    private static boolean validateNumberOfCharactersAddress(AddressDTO addressDTO) {
+    private static boolean numberOfCharactersAddress(AddressDTO addressDTO) {
 
         int numberOfCharacters = addressDTO.getNumber().length();
 
@@ -67,6 +68,8 @@ public class ValidatorUtil {
 
         return true;
     }
+
+
 
 
 }

@@ -10,8 +10,9 @@ public class AddressBuilder {
         AddressBuilder builder = new AddressBuilder();
         builder.addressDTO.setStreet("street");
         builder.addressDTO.setCity("city");
-        builder.addressDTO.setZipCode("11111-111");
+        builder.addressDTO.setZipCode("11111111");
         builder.addressDTO.setNumber("221");
+        builder.addressDTO.setPersonID(0);
         return builder;
     }
 

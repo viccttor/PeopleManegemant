@@ -40,7 +40,7 @@ public class AddressServiceTest {
         addressDTO.setCity("Teste");
         addressDTO.setNumber("11");
         addressDTO.setZipCode("11111-111");
-        addressDTO.setPersonID(1);
+        addressDTO.setPersonID(1l);
 
         address = addressService.newAddress(addressDTO);
 
