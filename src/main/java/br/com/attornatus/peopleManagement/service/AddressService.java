@@ -24,7 +24,16 @@ public class AddressService {
     }
 
     public Address creatObjectAddress(AddressDTO addressDTO){
-        if(!ValidatorUtil.validateAddressFields(addressDTO)) {
+        boolean itsValid = false;
+
+        try {
+          itsValid =  ValidatorUtil.validateAddressFields(addressDTO);
+
+        }catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
+        if(!itsValid) {
             return null;
         } else {
             address = new Address();
