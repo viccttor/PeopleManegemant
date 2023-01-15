@@ -1,5 +1,6 @@
 package br.com.attornatus.peopleManagement.service;
 
+import br.com.attornatus.peopleManagement.Util.ValidatorUtil;
 import br.com.attornatus.peopleManagement.exception.PersonNotFoundException;
 import br.com.attornatus.peopleManagement.model.Address;
 import br.com.attornatus.peopleManagement.model.Person;
@@ -15,7 +16,7 @@ public class PersonService {
     private Person person;
 
     @Autowired
-    private AddressService addressService;
+    private AddressService addressService = new AddressService();
 
     @Autowired
     private PersonRepository personRepository;
@@ -36,12 +37,32 @@ public class PersonService {
         return person;
     }
     public Person createObjectPerson(PersonDTO personDTO) {
-        person = new Person();
-        person.setName(personDTO.getName());
-        person.setBirthDate(personDTO.getBirthDate());
-        person.setAddress(addressService.creatObjectAddress(personDTO.getAddressDTO()));
+        boolean itsPersonValid = false;
+        boolean itsPersonAddressValid = false;
+        try {
+            itsPersonValid = ValidatorUtil.validatePersonFields(personDTO);
 
-        return person;
+
+        }catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        try {
+            itsPersonAddressValid =  ValidatorUtil.validateAddressFields(personDTO.getAddressDTO());
+
+        }catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
+        if (!itsPersonValid && !itsPersonAddressValid) {
+            return null;
+        }else {
+            person = new Person();
+            person.setName(personDTO.getName());
+            person.setBirthDate(personDTO.getBirthDate());
+            person.setAddress(addressService.creatObjectAddress(personDTO.getAddressDTO()));
+
+            return person;
+        }
     }
 
     public Person updatePerson(PersonDTO personDTO, long personID){

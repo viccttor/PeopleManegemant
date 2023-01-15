@@ -9,7 +9,6 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Rule;
 import org.junit.jupiter.api.*;
 import org.junit.rules.ErrorCollector;
-import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
@@ -23,14 +22,13 @@ class ValidatorUtilTest {
 
     @InjectMocks
     private ValidatorUtil util;
+
     private AddressDTO addressDTO;
     private PersonDTO personDTO;
 
     @Rule
     public ErrorCollector error = new ErrorCollector();
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -49,7 +47,7 @@ class ValidatorUtilTest {
            ValidatorUtil.validateAddressFields(addressDTO);
        }catch (NullAddressException e){
            e.printStackTrace();
-           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Endereço é nulo"));
+           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("AddressDTO object is null"));
        }
     }
 
@@ -73,7 +71,7 @@ class ValidatorUtilTest {
            ValidatorUtil.validateAddressFields(addressDTO);
        }catch (NullAddressFieldException e){
            e.printStackTrace();
-           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Campo Street do endereço é nulo"));
+           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Street field is null in object AddressDTO"));
        }
     }
 
@@ -86,7 +84,7 @@ class ValidatorUtilTest {
            ValidatorUtil.validateAddressFields(addressDTO);
        }catch (NullAddressFieldException e){
            e.printStackTrace();
-           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Campo City do endereço é nulo"));
+           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("City field is null in object AddressDTO"));
        }
     }
 
@@ -99,7 +97,7 @@ class ValidatorUtilTest {
            ValidatorUtil.validateAddressFields(addressDTO);
        }catch (NullAddressFieldException e){
            e.printStackTrace();
-           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Campo ZipCode do endereço é nulo"));
+           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("ZipCode field is null in object AddressDTO"));
        }
     }
 
@@ -112,7 +110,7 @@ class ValidatorUtilTest {
            ValidatorUtil.validateAddressFields(addressDTO);
        }catch (NullAddressFieldException e){
            e.printStackTrace();
-           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Campo Number do endereço é nulo"));
+           MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Number field is null in object AddressDTO"));
        }
     }
 
@@ -124,8 +122,8 @@ class ValidatorUtilTest {
             ValidatorUtil.validateAddressFields(addressDTO);
         }catch (InvalidNumberOfCharactersException e){
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Quantiade de caracteres do " +
-                    "campo number é maior que 5"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Number of characters in the number field" +
+                    " is greater than 5 in object AddressDTO"));
         }
     }
 
@@ -137,8 +135,8 @@ class ValidatorUtilTest {
             ValidatorUtil.validateAddressFields(addressDTO);
         }catch (InvalidNumberOfCharactersException e){
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Quantiade de caracteres do " +
-                    "campo zipCode é maior que 9"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Number of characters in the zipCode field" +
+                    " is greater than 9 in object AddressDTO"));
         }
     }
     @Order(8)
@@ -151,8 +149,8 @@ class ValidatorUtilTest {
             ValidatorUtil.validateAddressFields(addressDTO);
         }catch (InvalidNumberOfCharactersException e){
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Quantiade de caracteres do " +
-                    "campo street é maior que 150"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Number of characters in the street field" +
+                    " is greater than 150 in object AddressDTO"));
         }
     }
     @Order(9)
@@ -163,8 +161,8 @@ class ValidatorUtilTest {
             ValidatorUtil.validateAddressFields(addressDTO);
         }catch (InvalidNumberOfCharactersException e){
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Quantiade de caracteres do " +
-                    "campo city é maior que 50"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Number of characters in the city field" +
+                    " is greater than 50 in object AddressDTO"));
         }
     }
 
@@ -172,10 +170,10 @@ class ValidatorUtilTest {
     @Test
     void zipCodeFieldWithUppercaseLettersThrowInvalidCharactersException(){
         try {
-            ValidatorUtil.checksIfTheFieldHascharactersInvalid("LETRAS");
+            ValidatorUtil.checksIfTheFieldHascharactersInvalid("LETTERS UPPERCASE");
         }catch (InvalidCharactersException e){
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Neste Campo é permitido apenas Números"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Only numbers are allowed in this field"));
         }
 
     }
@@ -185,10 +183,10 @@ class ValidatorUtilTest {
     void zipCodeFieldWithLowercaseLettersThrowInvalidCharactersException(){
 
         try {
-            ValidatorUtil.checksIfTheFieldHascharactersInvalid("letras");
+            ValidatorUtil.checksIfTheFieldHascharactersInvalid("letters lowercase");
         }catch (InvalidCharactersException e){
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Neste Campo é permitido apenas Números"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Only numbers are allowed in this field"));
         }
 
     }
@@ -201,7 +199,7 @@ class ValidatorUtilTest {
             ValidatorUtil.checksIfTheFieldHascharactersInvalid("*=@/");
         }catch (InvalidCharactersException e){
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Neste Campo é permitido apenas Números"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Only numbers are allowed in this field"));
         }
 
     }
@@ -228,7 +226,7 @@ class ValidatorUtilTest {
             ValidatorUtil.validatePersonFields(personDTO);
         } catch (NullPersonException e) {
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Objeto PersonDTO é nulo"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("PersonDTO object is null"));
         }
     }
 
@@ -242,7 +240,7 @@ class ValidatorUtilTest {
             ValidatorUtil.validatePersonFields(personDTO);
         } catch (NullPersonFieldException e) {
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Campo Name é nulo"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Name field is null in PersonDTO object"));
         }
     }
 
@@ -256,9 +254,24 @@ class ValidatorUtilTest {
             ValidatorUtil.validatePersonFields(personDTO);
         } catch (NullPersonFieldException e) {
             e.printStackTrace();
-            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Campo birthDate é nulo"));
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("birthDate field is null in PersonDTO object"));
         }
     }
 
-    //Name and birthDate
+    @Order(17)
+    @Test
+    void invalidAmountOfCharactersInPersonObjectNameFieldThrowsExceptionForInvalidNumberOfCharacters(){
+        personDTO = newPerson().setName("Nome 1 Nome 2 Nome 3 Nome 4 Nome 5" +
+                "Nome 1 Nome 2 Nome 3 Nome 4 Nome 5" +
+                "Nome 1 Nome 2 Nome 3 Nome 4 Nome 5").now();
+        try {
+            ValidatorUtil.validatePersonFields(personDTO);
+        }catch (InvalidNumberOfCharactersException e){
+            e.printStackTrace();
+            MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Number of characters in the name field " +
+                    "is greater than 100 in the PersonDTO object"));
+        }
+    }
+
+
 }

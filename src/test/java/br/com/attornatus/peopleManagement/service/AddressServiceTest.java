@@ -1,51 +1,42 @@
 package br.com.attornatus.peopleManagement.service;
 
-import br.com.attornatus.peopleManagement.exception.AddressNotFoundException;
 import br.com.attornatus.peopleManagement.model.Address;
 import br.com.attornatus.peopleManagement.model.dto.AddressDTO;
-import br.com.attornatus.peopleManagement.repository.AddressRepository;
-import org.junit.Assert;
+import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
-import org.junit.Test;
-import org.junit.platform.commons.annotation.Testable;
-import org.junit.rules.ExpectedException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.*;
+import org.junit.rules.ErrorCollector;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 
-@Testable
-public class AddressServiceTest {
+import static br.com.attornatus.peopleManagement.builder.AddressBuilder.newAddress;
 
-    @Test
-    public void test(){
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class AddressServiceTest {
 
-    }
-
+    @InjectMocks
+    private AddressService addressService = new AddressService();
+    private AddressDTO addressDTO;
     @Rule
-    public ExpectedException exception = ExpectedException.none();
-    @Autowired
-    private AddressService addressService;
-    @Autowired
-    private AddressRepository addressRepository;
+    public ErrorCollector error = new ErrorCollector();
 
-    private Address address = new Address();
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        addressDTO = newAddress().now();
 
-    @Test(expected = AddressNotFoundException.class)
-    public void enderecoNotFoundException(){
-        addressService.findAddressByID(1);
     }
 
+    @Order(0)
     @Test
-    public void newEndereco(){
-        AddressDTO addressDTO = new AddressDTO();
-        addressDTO.setStreet("Teste");
-        addressDTO.setCity("Teste");
-        addressDTO.setNumber("11");
-        addressDTO.setZipCode("11111-111");
-        addressDTO.setPersonID(1l);
+    void CreatePersonObjectAndValidateAllFields() {
+        Address address = addressService.creatObjectAddress(addressDTO);
 
-        address = addressService.newAddress(addressDTO);
-
-        Assert.assertEquals(addressDTO.getStreet(), address.getStreet());
+        error.checkThat(address.getNumber(), CoreMatchers.is("221"));
+        error.checkThat(address.getStreet(), CoreMatchers.is("street"));
+        error.checkThat(address.getCity(), CoreMatchers.is("city"));
+        error.checkThat(address.getZipCode(), CoreMatchers.is("11111111"));
+        error.checkThat(address.getPersonID(), CoreMatchers.is(0));
     }
-
 
 }
