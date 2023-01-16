@@ -7,6 +7,8 @@ import br.com.attornatus.peopleManagement.model.Person;
 import br.com.attornatus.peopleManagement.model.dto.PersonDTO;
 import br.com.attornatus.peopleManagement.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,49 +33,53 @@ public class PersonService {
         return person;
     }
 
-    public Person newPerson(PersonDTO personDTO) {
-        person = personRepository.save(createObjectPerson(personDTO));
+    public ResponseEntity<Person> newPerson(PersonDTO personDTO) {
+        person = createObjectPerson(personDTO);
+        if (person == null) {return new ResponseEntity<Person>(HttpStatus.BAD_REQUEST);}
+        person = personRepository.save(person);
         setMainAddress(person.getId(), person.getAddress().getId());
-        return person;
+        return new ResponseEntity<Person>(person, HttpStatus.CREATED);
     }
     public Person createObjectPerson(PersonDTO personDTO) {
         boolean itsPersonValid = false;
         boolean itsPersonAddressValid = false;
+
         try {
             itsPersonValid = ValidatorUtil.validatePersonFields(personDTO);
-
-
-        }catch (RuntimeException e) {
-            e.printStackTrace();
-        }
-        try {
             itsPersonAddressValid =  ValidatorUtil.validateAddressFields(personDTO.getAddressDTO());
 
         }catch (RuntimeException e) {
             e.printStackTrace();
         }
 
-        if (!itsPersonValid && !itsPersonAddressValid) {
-            return null;
-        }else {
+        if (itsPersonValid && itsPersonAddressValid) {
             person = new Person();
             person.setName(personDTO.getName());
             person.setBirthDate(personDTO.getBirthDate());
             person.setAddress(addressService.creatObjectAddress(personDTO.getAddressDTO()));
 
             return person;
+        }else {
+            return null;
         }
     }
 
-    public Person updatePerson(PersonDTO personDTO, long personID){
+    public ResponseEntity<Person> updatePerson(PersonDTO personDTO, long personID){
         person = findPerson(personID);
+        if (person == null || personDTO.getAddressDTO().getPersonID() != personID){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         person.setName(personDTO.getName());
         person.setBirthDate(personDTO.getBirthDate());
-        person.setAddress(addressService.creatObjectAddress(personDTO.getAddressDTO()));
 
-        personRepository.save(person);
+        Address address = addressService.creatObjectAddress(personDTO.getAddressDTO());
+        if (address == null) {return new ResponseEntity<>(HttpStatus.BAD_REQUEST);}
+        address.setId(person.getAddress().getId());
 
-        return person;
+        person.setAddress(address);
+        person = personRepository.save(person);
+
+        return new ResponseEntity<Person>(person,HttpStatus.OK);
     }
 
 
@@ -81,14 +87,18 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person setMainAddress(long personID, long newPrimaryAddressID) {
+    public ResponseEntity<Person> setMainAddress(long personID, long newPrimaryAddressID) {
 
         person = findPerson(personID);
+        if (person == null ) {return new ResponseEntity<Person>(person, HttpStatus.BAD_REQUEST);}
+
         Address address = addressService.findAddressByID(newPrimaryAddressID);
-        address.setPersonID(personID);
+        if (address == null) {return new ResponseEntity<Person>(person, HttpStatus.BAD_REQUEST);}
+
+        address.setPersonID(person.getId());
         person.setAddress(address);
         personRepository.save(person);
 
-        return person;
+        return new ResponseEntity<>(person,HttpStatus.OK);
     }
 }

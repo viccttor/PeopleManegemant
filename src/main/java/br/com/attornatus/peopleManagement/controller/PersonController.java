@@ -18,17 +18,17 @@ public class PersonController {
 
     @PostMapping("/newPerson")
     public ResponseEntity<Person> newPerson(@RequestBody PersonDTO personDTO) {
-        return new ResponseEntity<Person>(personService.newPerson(personDTO), HttpStatus.CREATED);
+        return personService.newPerson(personDTO);
     }
 
     @PutMapping("/updatePerson")
     public ResponseEntity<Person> updatePerson(@RequestBody PersonDTO personDTO, @RequestParam long id){
-        return new ResponseEntity<Person>(personService.updatePerson(personDTO, id), HttpStatus.OK);
+        return personService.updatePerson(personDTO, id);
     }
 
     @PatchMapping("/setMainAddress")
     public ResponseEntity<Person> setMainAddress(@RequestParam long pessoaID, @RequestParam long newEnderecoID){
-        return new ResponseEntity<Person>(personService.setMainAddress(pessoaID, newEnderecoID), HttpStatus.OK);
+        return personService.setMainAddress(pessoaID, newEnderecoID);
     }
 
     @GetMapping("/findPerson")
