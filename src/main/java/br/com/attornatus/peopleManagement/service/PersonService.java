@@ -95,6 +95,10 @@ public class PersonService {
         Address address = addressService.findAddressByID(newPrimaryAddressID);
         if (address == null) {return new ResponseEntity<Person>(person, HttpStatus.BAD_REQUEST);}
 
+        if (!ValidatorUtil.validateIfTheIDMatches(personID, address.getId())) {
+            return new ResponseEntity<Person>(person, HttpStatus.BAD_REQUEST);
+        }
+
         address.setPersonID(person.getId());
         person.setAddress(address);
         personRepository.save(person);

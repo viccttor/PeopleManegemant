@@ -27,8 +27,8 @@ public class PersonController {
     }
 
     @PatchMapping("/setMainAddress")
-    public ResponseEntity<Person> setMainAddress(@RequestParam long pessoaID, @RequestParam long newEnderecoID){
-        return personService.setMainAddress(pessoaID, newEnderecoID);
+    public ResponseEntity<Person> setMainAddress(@RequestParam long pessoaID, @RequestParam long newAddressID){
+        return personService.setMainAddress(pessoaID, newAddressID);
     }
 
     @GetMapping("/findPerson")

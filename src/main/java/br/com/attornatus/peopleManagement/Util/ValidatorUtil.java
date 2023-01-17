@@ -94,5 +94,15 @@ public class ValidatorUtil {
         return true;
     }
 
+    public static boolean validateIfTheIDMatches(long personID, long addressID) {
+        if (personID == addressID) {return true;}
 
+        try {
+            throw new SomeoneElseIsAddressException("This address does not belong to this user");
+
+        }catch (SomeoneElseIsAddressException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

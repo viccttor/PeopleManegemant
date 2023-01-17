@@ -9,6 +9,7 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Rule;
 import org.junit.jupiter.api.*;
 import org.junit.rules.ErrorCollector;
+import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
@@ -28,6 +29,9 @@ class ValidatorUtilTest {
 
     @Rule
     public ErrorCollector error = new ErrorCollector();
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @BeforeEach
     void setUp() {
@@ -271,6 +275,24 @@ class ValidatorUtilTest {
             MatcherAssert.assertThat(e.getMessage(), CoreMatchers.is("Number of characters in the name field " +
                     "is greater than 100 in the PersonDTO object"));
         }
+    }
+
+    @Order(18)
+    @Test
+    void iDsEqualsReturnTrue(){
+        long personID = 1;
+        long addressID = 1;
+
+        Assertions.assertTrue(ValidatorUtil.validateIfTheIDMatches(personID, addressID));
+    }
+
+    @Order(19)
+    @Test( )
+    void differentIDsReturnFalse(){
+        long personID = 1;
+        long addressID = 2;
+
+       Assertions.assertFalse(ValidatorUtil.validateIfTheIDMatches(personID, addressID));
     }
 
 
