@@ -34,7 +34,6 @@
     * [Person Controller](#ancora3)
   * [Access](#ancora4)
     * [Local](#ancora5)
-    * [Heroku](#ancora6)
   * [Using all API requests](#ancora7)
     * [Step One - Register person](#ancora8)
     * [Step Two - List people](#ancora9)
@@ -81,12 +80,6 @@
 <a id="ancora5"></a>
 ### URL Local
 http://localhost:8080/peopleManagement/swagger-ui/index.html#/
-
-<a id="ancora6"></a>
-### URL Heroku
-<div>
- <a href="" target="_blank"><img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white"></a> 
-</div>
 
 <a id="ancora7"></a>
 ## Using all API requests
