@@ -44,6 +44,7 @@
     * [Address](#ancora14)
     * [Person](#ancora15)
   * [Unitary tests](#ancora16)
+  * [Test Answers](#ancora17)
     
 
 <a id="ancora0"></a>
@@ -701,4 +702,26 @@ PersonID - 1
 ![unitaryTests](https://github.com/viccttor/PeopleManegemant/blob/main/img/unitaryTests.png)
 
 
+<a id="ancora17"></a>
+### Test Answers
 
+```
+Qualidade de código
+
+    1. Durante a implementação de uma nova funcionalidade de software solicitada, quais critérios você avalia e implementa para garantia de qualidade de software?
+
+R – Avalio os requisitos e desenvolvo a implementação seguindo as boas práticas
+do código limpo:
+
+-  TDD 
+- Legibilidade e formatação do Código
+- Métodos e classes com apenas uma função
+- Nomes de métodos e variáveis autoexplicativos
+- Métodos independentes
+- Tratamentos de erros
+
+
+    2. Em qual etapa da implementação você considera a qualidade de software?
+
+R – Considero em primeiro plano, literalmente é a primeira coisa a ser pensada. Pois um código bem escrito, evita/facilita manutenção futura.
+```
