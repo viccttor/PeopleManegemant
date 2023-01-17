@@ -50,7 +50,7 @@
 <a id="ancora0"></a>
 ## 📝 Class diagram
 
-![diagram]()
+![diagram](https://github.com/viccttor/PeopleManegemant/blob/main/img/diagram.png)
 
 <a id="ancora1"></a>
 ## API structure
@@ -522,7 +522,7 @@ PersonID - 2
 <p>Code HTPP: 400</p>
 <p>In the API</p>
 
-![errors0]()
+![errors0](https://github.com/viccttor/PeopleManegemant/blob/main/img/errors/errors0.png)
 
 <a id="ancora16"></a>
 #### Letters no zipCode field
@@ -543,7 +543,7 @@ PersonID - 2
 <p>Code HTPP: 400</p>
 <p>In the API</p>
 
-![errors1]()
+![errors1](https://github.com/viccttor/PeopleManegemant/blob/main/img/errors/errors1.png)
 
 <a id="ancora17"></a>
 #### Letters no number field
@@ -564,7 +564,7 @@ PersonID - 2
 <p>Code HTPP: 400</p>
 <p>In the API</p>
 
-![errors2]()
+![errors2](https://github.com/viccttor/PeopleManegemant/blob/main/img/errors/errors2.png)
 
 <a id="ancora18"></a>
 #### Null fields: city, number, street e zipCode
@@ -585,7 +585,7 @@ PersonID - 2
 <p>Code HTPP: 400</p>
 <p>In the API</p>
 
-![errors3]()
+![errors3](https://github.com/viccttor/PeopleManegemant/blob/main/img/errors/errors3.png)
 
 <a id="ancora19"></a>
 #### Null field: personID
@@ -606,7 +606,7 @@ PersonID - 2
 <p>Code HTPP: 400</p>
 <p>In the API</p>
 
-![errors4]()
+![errors4](https://github.com/viccttor/PeopleManegemant/blob/main/img/errors/errors4.png)
 
 <a id="ancora19"></a>
 #### Null field: personID
@@ -627,7 +627,7 @@ PersonID - 2
 <p>Code HTPP: 400</p>
 <p>In the API</p>
 
-![errors0]()
+![errors0](https://github.com/viccttor/PeopleManegemant/blob/main/img/errors/errors0.png)
 
 <a id="ancora20"></a>
 #### Validation of the number of characters in the fields: city, number, personID, street and zipCode
@@ -648,7 +648,7 @@ PersonID - 2
 <p>Code HTPP: 400</p>
 <p>In the API</p>
 
-![errors6]()
+![errors6](https://github.com/viccttor/PeopleManegemant/blob/main/img/errors/errors6.png)
 
 <a id="ancora21"></a>
 ## Person
@@ -679,7 +679,7 @@ PersonID - 2
 <p>Code HTPP: 400</p>
 <p>In the API</p>
 
-![errors6]()
+![errors6](https://github.com/viccttor/PeopleManegemant/blob/main/img/errors/errors6.png)
 
 <a id="ancora22"></a>
 ### Some One Else is address
@@ -700,12 +700,12 @@ PersonID - 1
 <p>Code HTPP: 400</p>
 <p>In the API</p>
 
-![errors7]()
+![errors7](https://github.com/viccttor/PeopleManegemant/blob/main/img/errors/errors7.png)
 
 <a id="ancora24"></a>
 ## Unitary tests
 
-![unitaryTests]()
+![unitaryTests](https://github.com/viccttor/PeopleManegemant/blob/main/img/unitaryTests.png)
 
 
 
