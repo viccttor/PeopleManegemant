@@ -50,7 +50,7 @@
 <a id="ancora0"></a>
 ## 📝 Class diagram
 
-![diagram](https://github.com/viccttor/PeopleManegemant/blob/main/img/diagram.png)
+![diagram](https://github.com/viccttor/PeopleManegemant/blob/main/img/dg.png)
 
 <a id="ancora1"></a>
 ## API structure
