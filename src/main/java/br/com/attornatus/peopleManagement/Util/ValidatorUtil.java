@@ -98,9 +98,9 @@ public class ValidatorUtil {
         if (personID == addressID) {return true;}
 
         try {
-            throw new SomeoneElseIsAddressException("This address does not belong to this user");
+            throw new SomeOneElseIsAddressException("This address does not belong to this user");
 
-        }catch (SomeoneElseIsAddressException e){
+        }catch (SomeOneElseIsAddressException e){
             e.printStackTrace();
         }
         return false;
